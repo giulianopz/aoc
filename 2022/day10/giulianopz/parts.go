@@ -57,5 +57,60 @@ func interesting(cycleNum int) bool {
 }
 
 func PartTwo(input []string) string {
-	return ""
+
+	CRT := [6][40]string{}
+	X := 1
+
+	addRegex, _ := regexp.Compile(add + "\\s(-?\\d+)")
+
+	draw := func(cycleNum, X int) {
+		var i int
+		if (cycleNum % 40) != 0 {
+			i = cycleNum / 40
+		} else {
+			i = (cycleNum / 40) - 1
+		}
+		var j int
+		if (cycleNum % 40) != 0 {
+			j = cycleNum%40 - 1
+		} else {
+			j = 40 - 1
+		}
+		//fmt.Printf("drawing in array %d at position %d when cycle num is %d\n", i, j, cycleNum)
+
+		if j == X || j == (X-1) || j == (X+1) {
+			CRT[i][j] = "#"
+		} else {
+			CRT[i][j] = "."
+		}
+	}
+
+	var cycleNum int
+	for _, line := range input {
+
+		if line == noop {
+			cycleNum++
+			draw(cycleNum, X)
+
+		} else if addRegex.MatchString(line) {
+			cycleNum++
+			draw(cycleNum, X)
+
+			cycleNum++
+			draw(cycleNum, X)
+
+			matches := addRegex.FindAllStringSubmatch(line, -1)
+			value, _ := strconv.Atoi(matches[0][1])
+			X += value
+		}
+	}
+
+	image := "\n"
+	for _, pixels := range CRT {
+		for _, p := range pixels {
+			image += p
+		}
+		image += "\n"
+	}
+	return image
 }
