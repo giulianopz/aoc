@@ -199,8 +199,16 @@ func TestPartTwo(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			input := utils.SplitInput(tc.input)
-			if got := PartTwo(input); got != tc.expected {
-				t.Errorf("PartTwo() = %v, want %v", got, tc.expected)
+			got := PartTwo(input)
+
+			if len(got) != len(tc.expected) {
+				t.Errorf("PartTwo() = %v, want %v", len(got), len(tc.expected))
+			}
+
+			for i := 0; i < len(got); i++ {
+				if got[i] != tc.expected[i] {
+					t.Errorf("PartTwo() = %v, want %v", got[i], tc.expected[i])
+				}
 			}
 		})
 	}

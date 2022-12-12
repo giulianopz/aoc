@@ -64,19 +64,14 @@ func PartTwo(input []string) string {
 	addRegex, _ := regexp.Compile(add + "\\s(-?\\d+)")
 
 	draw := func(cycleNum, X int) {
-		var i int
+		var i, j int
 		if (cycleNum % 40) != 0 {
 			i = cycleNum / 40
+			j = (cycleNum % 40) - 1
 		} else {
 			i = (cycleNum / 40) - 1
-		}
-		var j int
-		if (cycleNum % 40) != 0 {
-			j = cycleNum%40 - 1
-		} else {
 			j = 40 - 1
 		}
-		//fmt.Printf("drawing in array %d at position %d when cycle num is %d\n", i, j, cycleNum)
 
 		if j == X || j == (X-1) || j == (X+1) {
 			CRT[i][j] = "#"
@@ -106,11 +101,13 @@ func PartTwo(input []string) string {
 	}
 
 	image := "\n"
-	for _, pixels := range CRT {
+	for i, pixels := range CRT {
 		for _, p := range pixels {
 			image += p
 		}
-		image += "\n"
+		if i != len(CRT)-1 {
+			image += "\n"
+		}
 	}
 	return image
 }
