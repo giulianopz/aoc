@@ -13,6 +13,6 @@ func main() {
 	fmt.Printf("Part 2: %v\n", PartTwo(input))
 	/*
 		Part 1: RNZLFZSJH
-		Part 2:
+		Part 2: CNSFCGJSM
 	*/
 }

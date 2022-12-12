@@ -1,9 +1,8 @@
 package main
 
 import (
+	"strings"
 	"testing"
-
-	"github.com/golangroma/aoc/utils"
 )
 
 var sample string = `
@@ -32,7 +31,7 @@ func TestPartOne(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			input := utils.SplitInput(tc.input)
+			input := strings.Split(tc.input, "\n")
 			if got := PartOne(input); got != tc.expected {
 				t.Errorf("PartOne() = %v, want %v", got, tc.expected)
 			}
@@ -55,7 +54,7 @@ func TestPartTwo(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			input := utils.SplitInput(tc.input)
+			input := strings.Split(tc.input, "\n")
 			if got := PartTwo(input); got != tc.expected {
 				t.Errorf("PartTwo() = %v, want %v", got, tc.expected)
 			}
