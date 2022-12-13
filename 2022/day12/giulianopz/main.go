@@ -11,4 +11,8 @@ func main() {
 
 	fmt.Printf("Part 1: %v\n", PartOne(input))
 	fmt.Printf("Part 2: %v\n", PartTwo(input))
+	/*
+		Part 1: 420
+		Part 2: 414
+	*/
 }

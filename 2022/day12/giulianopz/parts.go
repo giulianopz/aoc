@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 const (
@@ -18,8 +19,6 @@ type node struct {
 	steps     int
 	previous  *node
 }
-
-type path []*node
 
 type grid [][]*node
 
@@ -121,7 +120,7 @@ func (g *grid) bfs(source, destination *node) int {
 				neigh.previous = current
 
 				if neigh.elevation == destination.elevation {
-					g.trace(neigh)
+					//g.trace(neigh)
 					return neigh.steps
 				}
 				q = append(q, neigh)
@@ -135,11 +134,49 @@ func (g *grid) trace(destination *node) {
 
 	curr := destination
 	for curr.previous != nil {
-		fmt.Print(string(curr.elevation) + "<")
+		fmt.Print("<" + string(curr.elevation))
 		curr = curr.previous
+	}
+	fmt.Println()
+}
+
+func (g *grid) reset() {
+	for i := range *g {
+		for _, n := range ([][]*node)(*g)[i] {
+			n.visited = false
+			n.previous = nil
+			n.steps = 0
+		}
 	}
 }
 
 func PartTwo(input []string) string {
-	return ""
+
+	var sources []*node
+	var destination *node
+	g := make(grid, len(input))
+	for i, line := range input {
+		g[i] = make([]*node, len(line))
+		for j, c := range line {
+			g[i][j] = &node{elevation: c, row: i, col: j, char: string(c)}
+			if c == 'a' || c == currentPos {
+				sources = append(sources, g[i][j])
+			} else if c == bestSignalPos {
+				destination = g[i][j]
+			}
+		}
+	}
+
+	fewestSteps := math.MaxInt
+	for _, s := range sources {
+
+		g.reset()
+		steps := g.bfs(s, destination)
+
+		if steps != 0 && steps < fewestSteps {
+			fewestSteps = steps
+		}
+	}
+
+	return fmt.Sprintf("%d", fewestSteps)
 }
