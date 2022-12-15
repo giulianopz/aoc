@@ -34,10 +34,6 @@ var (
 func draw(grid [][]string, p *point, symbol string) {
 
 	x := p.x
-	if p.x > 400 {
-		x -= 400
-	}
-
 	grid[p.y][x] = symbol
 }
 
@@ -62,9 +58,9 @@ func render(grid [][]string) {
 
 func PartOne(input []string) string {
 
-	grid := make([][]string, 170)
+	grid := make([][]string, 1000)
 	for i := range grid {
-		grid[i] = make([]string, 170)
+		grid[i] = make([]string, 1000)
 		for j := range grid[i] {
 			grid[i][j] = airS
 		}
@@ -88,8 +84,7 @@ func PartOne(input []string) string {
 				min := int(math.Min(float64(f.x), float64(s.x)))
 				max := int(math.Max(float64(f.x), float64(s.x)))
 				for x := min; x <= max; x++ {
-					normalized := x - 400
-					grid[f.y][normalized] = rockS
+					grid[f.y][x] = rockS
 				}
 			}
 
@@ -98,8 +93,7 @@ func PartOne(input []string) string {
 				min := int(math.Min(float64(f.y), float64(s.y)))
 				max := int(math.Max(float64(f.y), float64(s.y)))
 				for y := min; y <= max; y++ {
-					normalized := f.x - 400
-					grid[y][normalized] = rockS
+					grid[y][f.x] = rockS
 				}
 			}
 		}
@@ -116,7 +110,7 @@ func PartOne(input []string) string {
 
 		if sand == nil {
 			sandUnits++
-			sand = &point{s.x - 400, s.y}
+			sand = &point{s.x, s.y}
 			draw(grid, sand, sandS)
 		} else if !blocked(grid, sand.x, sand.y+1) {
 			//down
@@ -148,9 +142,9 @@ func PartOne(input []string) string {
 }
 
 func PartTwo(input []string) string {
-	grid := make([][]string, 170)
+	grid := make([][]string, 1000)
 	for i := range grid {
-		grid[i] = make([]string, 170)
+		grid[i] = make([]string, 1000)
 		for j := range grid[i] {
 			grid[i][j] = airS
 		}
@@ -175,8 +169,7 @@ func PartTwo(input []string) string {
 				min := int(math.Min(float64(f.x), float64(s.x)))
 				max := int(math.Max(float64(f.x), float64(s.x)))
 				for x := min; x <= max; x++ {
-					normalized := x - 400
-					grid[f.y][normalized] = rockS
+					grid[f.y][x] = rockS
 				}
 			}
 
@@ -185,8 +178,7 @@ func PartTwo(input []string) string {
 				min := int(math.Min(float64(f.y), float64(s.y)))
 				max := int(math.Max(float64(f.y), float64(s.y)))
 				for y := min; y <= max; y++ {
-					normalized := f.x - 400
-					grid[y][normalized] = rockS
+					grid[y][f.x] = rockS
 				}
 			}
 		}
@@ -208,7 +200,7 @@ func PartTwo(input []string) string {
 		//render(grid)
 		if sand == nil {
 			sandUnits++
-			sand = &point{s.x - 400, s.y}
+			sand = &point{s.x, s.y}
 			draw(grid, sand, sandS)
 		} else if !blocked(grid, sand.x, sand.y+1) {
 			//down
@@ -230,9 +222,9 @@ func PartTwo(input []string) string {
 		} else {
 			sand = nil
 		}
-		if grid[s.y][s.x-400] == sandS && grid[s.y+1][s.x-400] == sandS &&
-			grid[s.y+1][s.x-401] == sandS && grid[s.y+1][s.x-399] == sandS {
-			render(grid)
+		if grid[s.y][s.x] == sandS && grid[s.y+1][s.x] == sandS &&
+			grid[s.y+1][s.x-1] == sandS && grid[s.y+1][s.x+1] == sandS {
+			//render(grid)
 			filled = true
 		}
 	}
